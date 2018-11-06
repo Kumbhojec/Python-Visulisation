@@ -1,9 +1,62 @@
+# scatter graph
+
 import matplotlib.pyplot as plt
-
 x=[866,978,476,737,564,664,870,611,561,769,675,537,605,632,654,607,862]
-
 y=[80,88,17,16,35,14,48,18,0,60,24,20,16,10,26,23,73]
-
 Z= [50,50,50,50,50,50,50,50,50,50,50]
+plt.plot(x,y, "o") # scatter graph plotting
 
-plt.plot(x,y, "o") # scatter graph
+
+# scatter graph from Excel data
+
+import pandas as pd
+df = pd.read_excel('Name of the excel file.xlsx')
+df.head()
+df["Name of New Column"] = df["write the column name having one data"] + df["write the column name having other data"] # addition of coloumns
+p = pd.read_excel('Extracredits.xlsx')
+p.head()
+x = p.iloc[:,0].values
+y = p.iloc[:,1].values # getting data in python
+ax = plt.subplots()
+ax.scatter(x, y, s=15, alpha = .5) # alpha for transparency of dot
+
+# Combined plot from Excel data
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+p = pd.read_excel('Name of the excel file.xlsx')
+p.head()
+x = p.iloc[:,0].values # 0 for first column of data
+y = p.iloc[:,1].values # 1 for first column of data
+plt.plot(x, '-*', label='Inflow') # line gragh
+plt.plot(y, '--s', label='Outflow')
+plt.legend()
+plt.show()
+
+# Combined plot from Excel data for yearly data
+
+import matplotlib.pyplot as plt; plt.rcdefaults()
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import matplotlib.patches as mp
+ 
+p = pd.read_excel('Name of the excel file.xlsx')
+p.head()
+x = p.iloc[:12,0].values
+y = p.iloc[:12,1].values
+a = ('O', 'N', 'D', 'J', 'F', 'M', 'A', 'M', 'J', 'J','A','S')
+z = np.arange(len(a))
+plt.bar(z,y, color='dimgray', align='center', alpha=0.5,)
+b = mp.Patch(color='dimgray', label='2001')
+plt.legend(handles=[b])
+plt.plot(range(12), x, color='black')
+plt.ylabel('Rainfall (mm)')
+plt.xlabel('Month')
+plt.legend(['2017','2001'])
+plt.xticks(range(12), ['O', 'N', 'D', 'J', 'F', 'M', 'A', 'M', 'J', 'J','A','S'])
+
+
+

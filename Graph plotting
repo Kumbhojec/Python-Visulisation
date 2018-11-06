@@ -59,4 +59,49 @@ plt.legend(['2017','2001'])
 plt.xticks(range(12), ['O', 'N', 'D', 'J', 'F', 'M', 'A', 'M', 'J', 'J','A','S'])
 
 
+# Scatter plot with for regression alalysis
+"""
+https://pythonprogramming.net/how-to-program-r-squared-machine-learning-tutorial/?completed=/r-squared-coefficient-of-determination-machine-learning-tutorial/
+"""
+
+from statistics import mean
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import style
+style.use('ggplot')
+rcParams['font.family'] = 'Times New Roman'
+xs = np.array([866,978,476,737,564,664,870,611,561,769,675,537,605,632,654,607,862], dtype=np.float64)
+ys = np.array([246.5377924,340.1067637,69.85925355,187.4892779,112.2310879,	135.1392489,263.9298038,121.0835796,112.5749818,251.6680676,179.4000359,113.7684198,137.8052344,132.7849249,157.3885137,125.9592945,299.7869703
+], dtype=np.float64)
+
+def best_fit_slope_and_intercept(xs,ys):
+    m = (((mean(xs)*mean(ys)) - mean(xs*ys)) /
+         ((mean(xs)*mean(xs)) - mean(xs*xs)))
+    b = mean(ys) - m*mean(xs)
+    return m, b
+
+def squared_error(ys_orig,ys_line):
+    return sum((ys_line - ys_orig) * (ys_line - ys_orig))
+
+def coefficient_of_determination(ys_orig,ys_line):
+    y_mean_line = [mean(ys_orig) for y in ys_orig]
+    squared_error_regr = squared_error(ys_orig, ys_line)
+    squared_error_y_mean = squared_error(ys_orig, y_mean_line)
+    return 1 - (squared_error_regr/squared_error_y_mean)
+    
+m, b = best_fit_slope_and_intercept(xs,ys)
+regression_line = [(m*x)+b for x in xs]
+
+r_squared = coefficient_of_determination(ys,regression_line)
+print(r_squared)
+
+plt.scatter(xs,ys,color='black')
+plt.plot(xs, regression_line,color='black')
+plt.legend(loc=4)
+plt.xlabel('Rainfall(mm)')
+plt.ylabel('Runoff(mm)')
+plt.text(500,335,'$R^2$ = .95', fontsize=10)
+plt.show()
+
+
 
